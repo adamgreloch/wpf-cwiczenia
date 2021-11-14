@@ -7,5 +7,22 @@ Ekstremum oznacza minimum lub maksimum. Napisz procedurę
 ekstrema : int list → int
 która dla danej listy policzy ile jest na niej ekstremów. *)
 
+open List
 let ekstrema l =
-    let helper (res, 
+    let helper (res, pprev, prev) x = 
+        if x = prev then
+            (res, pprev, prev)
+        else if (pprev < prev && prev > x) || (pprev > prev && prev < x) then
+            (res+1, prev, x)
+        else
+            (res, prev, x)
+    in
+    match l with
+    | [] -> 0
+    | h::_ ->
+    let (a,_,_) = fold_left helper (0, h, h) l in a
+;;
+
+
+
+
