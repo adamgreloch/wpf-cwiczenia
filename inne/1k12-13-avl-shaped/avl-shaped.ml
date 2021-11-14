@@ -14,4 +14,21 @@ let rec fold_tree f a t =
    Zamiast tego należy wykorzystać procedurę fold_tree lub inne standardowe
    procedury wyższych rzędów. *)
 
-let rec 
+let nie_avl = Node(Node(Node(Node(Leaf,4,Node(Leaf,5,Leaf)),3,Leaf),2,Leaf),1,Leaf);;
+let avl1 = Node(Node(Leaf,1,Leaf),0,Leaf);;
+let avl2 = Node(Node(Node(Leaf,4,Leaf),2,Node(Leaf,5,Leaf)),1,Node(Leaf,3,Leaf));;
+let avl3 = Node(Node(Leaf,4,Leaf),2,Node(Leaf,5,Node(Leaf,6,Leaf)));;
+let avl2_a = Node(avl3, 1, Node(Leaf,3,Node(Leaf,4,Node(Leaf,1,Leaf))));;
+
+let avl_shaped tree =
+    try
+    ignore (fold_tree (fun _ lb rb ->
+        if (abs(lb - rb) > 1) then
+            raise Exit
+        else
+            max (lb+1) (rb+1)) 0 tree); true 
+    with Exit -> false
+;;
+
+let height = fold_tree (fun _ l r -> max (l+1) (r+1)) 0;;
+
