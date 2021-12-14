@@ -27,16 +27,36 @@ let drzewo3 = Node(drzewo2,1,Node(Leaf,3,Node(Leaf,4,drzewo2)));;
 let drzewo4 = Node(drzewo2,1,Node(Leaf,3,drzewo2));;
 let drzewo5 = Node(drzewo2,1,Node(Leaf,3,Node(Leaf,1,drzewo2)));;
 
-(*
-let f v lv rv =
-    match (lv, rv) with
-    | ([],[]) -> [[v];[]]
-    | (l,[]) | ([],l) -> [v]::l
-    | (_,_) ->
-        (* to nie zadziała, bo lewe poddrzewo może być znacznie głębsze od
-        prawego. ewentualnym fixem byloby dobudowanie drzewa by dlugosc list
-        sie zgadzala ale pod kątem kosztów pamięciowych byłoby to samobójstwo *)
-        (*[v]::(List.map2 (fun a b -> a @ b) lv rv)*)
-        [v]::[lv @ rv]
+open List
+
+type 'a bush = Bush of 'a * 'a bush list;;
+
+let rec fold_bush f (Bush(x,l)) =
+    f x (map (fold_bush f) l)
 ;;
-*)
+
+let fn a tab =
+  function
+    | []-> [a]::(List.fold_left (fun a f -> f a) [] tab)
+    | h::t -> (a::h)::(List.fold_left (fun a f -> f a) t tab)
+;;
+
+let levels b =
+    let create a fl fr = function
+        | []-> [a]::(fl (fr []))
+        | h::t -> (a::h)::(fl (fr t))
+    in fold_tree create (fun x -> x) b []
+;;
+
+
+let zbierz b =
+    let fn a tab = function
+        | []-> [a]::(List.fold_right (fun f x -> f x) tab [])
+        | h::t -> (a::h)::(List.fold_right (fun f x -> f x) tab t)
+    in fold_bush fn b []
+;;
+
+
+let a = Bush(1, [Bush(2, []); Bush(3, [])])
+let b = Bush(1, [Bush(2, [Bush(99, [Bush(98, [])])]); Bush(3, [Bush(4,[]);Bush(5,[]);Bush(6,[])])]);;
+
