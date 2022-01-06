@@ -22,8 +22,8 @@ wirus [(2,5);(4,7);(1,8);(3,4);(4,5);(8,9);(6,7)] = [4; 4; 5; 2; 3; 0; 2]
    oraz tych którzy wysiedli. Tablice te pozwalają na ustalenie w czasie stałym
    do ilu pasażerów dołącza dopiero wchodzący pasażer na [a]-tym przystanku
    (preIn.(a) - preOut.(a) - 1) oraz ustelenie ilu pasażerów dołączy jeszcze do
-   podróży od następnego przystanku [a+1] do przystanku końcowego [b] danego
-   pasażera, dając w sumie liczbę pasażerów z którymi miał styczność. *)
+   podróży od przystanku [a] do [b-1] dla danego pasażera, dając w sumie liczbę
+   pasażerów z którymi miał styczność. *)
 
 let wirus pas =
     let pas_a = List.sort (fun (a1,_) (a2,_) -> compare a1 a2) pas
