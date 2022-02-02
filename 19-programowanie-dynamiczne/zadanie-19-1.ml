@@ -88,8 +88,7 @@ let memoize tab f x =
             wynik
         end
 
-(* top-down jest bez sensu, bo mało podproblemów się pokrywa, zatem ma okropną
-   złożoność *)
+(* ten kod nie dziala *)
 let klej_td lst =
     let tab = ref Map.empty in
     let sklej x y l =
